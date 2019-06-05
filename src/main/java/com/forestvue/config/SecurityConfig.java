@@ -19,7 +19,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import javax.sql.DataSource;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 @Log4j
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -35,8 +35,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .formLogin()
                 .loginProcessingUrl("/login-processing")
-                .usernameParameter("username")
-                .passwordParameter("password")
                 .failureForwardUrl("/auth-failure")
                 .defaultSuccessUrl("/auth-success",false)
                 .and()
@@ -50,8 +48,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(customerUserService()).
         passwordEncoder(passwordEncoder());
-        String queryUser = "select userid, userpw, enabled from tbl_member where userid = ? ";
-        String queryDetails = "select userid, auth from tbl_member, auth from tbl_member_auth where userid = ? ";
+        String queryUser = "select userid, userpw, enabled from tbl_member where username = ? ";
+        String queryDetails = "select userid, auth from tbl_member_auth where userid = ? ";
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
                 .passwordEncoder(passwordEncoder())

@@ -23,7 +23,7 @@
         FROM
             tbl_member mem LEFT OUTER JOIN tbl_member_auth auth on mem.userid = auth.userid
         WHERE
-            mem.userid = #{userid}
+            mem.username = #{username}
     </select>
     <insert id="write">
         insert into tbl_member (userid, username, userpw) values (seq_member.nextval,#{userName},#{userpw})

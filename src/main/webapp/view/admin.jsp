@@ -15,17 +15,13 @@ prefix="sec"%>
 
     });
     function login(){
-        var formData = new FormData();
         var id=document.getElementById('id').value;
         var pw=document.getElementById('pw').value;
-        formData.append("username",id);
-        formData.append("password",pw);
-
         var xhr = new XMLHttpRequest();
         xhr.open('POST', 'login-processing');
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.addEventListener('load', customCallback);
-        xhr.send(formData);
+        xhr.send('username='+id+'&password='+pw);
     }
     function customCallback(e){
         console.log(e)

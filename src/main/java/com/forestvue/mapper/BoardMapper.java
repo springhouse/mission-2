@@ -1,7 +1,6 @@
 package com.forestvue.mapper;
 
 import com.forestvue.domain.BoardVO;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 

@@ -10,17 +10,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-public class main {
-    @RequestMapping(value="/")
-    public String index(Model model){
-        model.addAttribute("test", "1234");
+public class MainController {
+    @GetMapping(value="/")
+    public String index(){
         return "index";
     }
-    @RequestMapping(value="/admin")
-    public String admin(Model model){
-        return "admin";
+    @GetMapping(value = "/ajaxLogin")
+    public String login(){
+        return "ajaxLogin";
     }
-
+    @GetMapping(value = "/register")
+    public String register(){
+        return "register";
+    }
     @RequestMapping(value="/auth-failure", produces = "application/json")
     @ResponseBody
     public Object failed(){
@@ -33,13 +35,6 @@ public class main {
     public Object success(){
         Map<String, String> m = new HashMap<>();
         m.put("auth", "success");
-        return m;
-    }
-    @RequestMapping(value="/login-page", produces = "application/json")
-    @ResponseBody
-    public Object login(){
-        Map<String, String> m = new HashMap<>();
-        m.put("auth", "login");
         return m;
     }
 }

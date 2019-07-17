@@ -9,7 +9,6 @@
         <result property="userpw" column="userpw"/>
         <result property="userName" column="username"/>
         <result property="regDate" column="regdate"/>
-        <result property="updateDate" column="updatedate"/>
         <collection property="authList" resultMap="authMap">
         </collection>
     </resultMap>
@@ -17,19 +16,34 @@
         <result property="userid" column="userid"/>
         <result property="auth" column="auth"/>
     </resultMap>
+
     <select id="read" resultMap="memberMap">
         SELECT
-            mem.userid, userpw, username, enabled, regdate, updatedate, auth
+            mem.userid, userpw, username, regdate, auth
         FROM
             tbl_member mem LEFT OUTER JOIN tbl_member_auth auth on mem.userid = auth.userid
         WHERE
             mem.username = #{username}
     </select>
-    <insert id="write">
-        insert into tbl_member (userid, username, userpw) values (seq_member.nextval,#{userName},#{userpw})
+    <select id="readAll" resultMap="memberMap">
+        <![CDATA[
+        SELECT
+            mem.userid, userpw, username, regdate, auth
+        FROM
+            tbl_member mem LEFT OUTER JOIN tbl_member_auth auth on mem.userid = auth.userid
+        ]]>
+    </select>
+    <insert id="write" useGeneratedKeys="true" keyProperty="userid" parameterType="com.forestvue.domain.MemberVO">
+        insert into tbl_member (username, userpw) values (#{userName},#{userpw})
     </insert>
     <insert id="grant">
         insert into tbl_member_auth(userid, auth) values (#{userid}, #{auth})
     </insert>
+    <delete id="deleteUserAll">
+        delete from tbl_member;
+    </delete>
+    <delete id="deleteUserAuthAll">
+        delete from tbl_member_auth;
+    </delete>
 
 </mapper>
